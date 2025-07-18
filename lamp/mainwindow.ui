@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1039</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>智能家居控制系统</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #f0f2f5, stop:1 #e1e5e9);
+    font-family: &quot;Microsoft YaHei&quot;, &quot;SimHei&quot;, sans-serif;
+}
+
+QPushButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #4a90e2, stop:1 #357abd);
+    border: 2px solid #2c5aa0;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px;
+    min-height: 20px;
+}
+
+QPushButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #5ba0f2, stop:1 #4a90e2);
+    border: 2px solid #4a90e2;
+}
+
+QPushButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #357abd, stop:1 #2c5aa0);
+}
+
+QPushButton#pb_led, QPushButton#pb_led_2, QPushButton#pb_led_3 {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f39c12, stop:1 #e67e22);
+    border: 2px solid #d68910;
+}
+
+QPushButton#pb_led:hover, QPushButton#pb_led_2:hover, QPushButton#pb_led_3:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f4a460, stop:1 #f39c12);
+}
+
+QPushButton#pb_fan, QPushButton#pb_fan_speed_up, QPushButton#pb_fan_speed_down {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #27ae60, stop:1 #229954);
+    border: 2px solid #1e8449;
+}
+
+QPushButton#pb_fan:hover, QPushButton#pb_fan_speed_up:hover, QPushButton#pb_fan_speed_down:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #2ecc71, stop:1 #27ae60);
+}
+
+QPushButton#pb_beeper {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #e74c3c, stop:1 #c0392b);
+    border: 2px solid #a93226;
+}
+
+QPushButton#pb_beeper:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #ec7063, stop:1 #e74c3c);
+}
+
+QPushButton#pb_camera {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #9b59b6, stop:1 #8e44ad);
+    border: 2px solid #7d3c98;
+}
+
+QPushButton#pb_camera:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #af7ac5, stop:1 #9b59b6);
+}
+
+QPushButton#pb_doorlock {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #34495e, stop:1 #2c3e50);
+    border: 2px solid #1b2631;
+}
+
+QPushButton#pb_doorlock:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #5d6d7e, stop:1 #34495e);
+}
+
+QPushButton#disable {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #95a5a6, stop:1 #7f8c8d);
+    border: 2px solid #6c7b7d;
+}
+
+QPushButton#disable:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #bdc3c7, stop:1 #95a5a6);
+}
+
+QLineEdit {
+    background-color: white;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 13px;
+    color: #2c3e50;
+}
+
+QLineEdit:focus {
+    border: 2px solid #3498db;
+    background-color: #f8f9fa;
+}
+
+QLabel {
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+QLabel#label_tem, QLabel#label_hum, QLabel#label_light, QLabel#label_people, QLabel#label_fan_speed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #ecf0f1, stop:1 #d5dbdb);
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+QLabel#camera_label {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #f8f9fa, stop:1 #e9ecef);
+    border: 3px solid #dee2e6;
+    border-radius: 10px;
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: bold;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="pb_led">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开灯</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="hostname">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>4</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>mqtt.yyzlab.com.cn</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_port">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>40</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1883</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_connect">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>20</y>
+      <width>89</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>连接</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>服务器：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>50</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>端  口：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>发布主题：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="pub_topic">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>80</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1752540011658/Device2AIOTSIM</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>订阅主题：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="sub_topic">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>120</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1752540011658/AIOTSIM2Device</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_fan">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>190</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>风扇开</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>280</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>电灯1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_led_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开灯</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>400</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>电灯2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_tem">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>180</y>
+      <width>121</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>温度：-- ℃</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_hum">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>240</y>
+      <width>121</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>湿度：-- %</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_light">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>300</y>
+      <width>121</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>光照：-- lux</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_people">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>360</y>
+      <width>121</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>人体红外：无人</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="disable">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>120</y>
+      <width>89</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>关闭</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_led_3">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>190</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开灯</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>280</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>电灯3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_fan_speed_up">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>310</y>
+      <width>101</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>风扇加速</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_fan_speed_down">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>360</y>
+      <width>101</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>风扇减速</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>280</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>风扇</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_beeper">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>310</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>蜂鸣器开</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>400</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>蜂鸣器</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="camera_label">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>100</y>
+      <width>461</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>摄像头预览区域</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_camera">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>30</y>
+      <width>101</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开启摄像头</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_doorlock">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>120</y>
+      <width>101</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>门锁开</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_weather_result">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>429</y>
+      <width>260</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>天气信息将在此显示</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1039</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #2c3e50, stop:1 #34495e);
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid #1a252f;
+}</string>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">QStatusBar {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #ecf0f1, stop:1 #d5dbdb);
+    border-top: 1px solid #bdc3c7;
+    color: #2c3e50;
+    font-weight: bold;
+}</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

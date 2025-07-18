@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/beeper.png</file>
+        <file>icons/close.png</file>
+        <file>icons/connect.png</file>
+        <file>icons/fan.png</file>
+        <file>icons/light_on.png</file>
+        <file>icons/speed_down.png</file>
+        <file>icons/speed_up.png</file>
+    </qresource>
+</RCC>
