@@ -9,6 +9,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QCoreApplication>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -65,7 +66,7 @@ void MainWindow::on_pb_led_clicked()
         client->publish(topic, payload);
         leds->off(fsmpLeds::LED1);
         ui->pb_led->setText("开灯");
-    }
+    }   
 }
 
 
@@ -191,8 +192,7 @@ void MainWindow::on_pb_camera_clicked()
         }
     } else {
         if(camera->isRunning()) {
-            camera->terminate();
-            camera->wait();
+            camera->stop(); // 安全关闭线程
             ui->pb_camera->setText("开启摄像头");
             ui->camera_label->clear();
             ui->camera_label->setText("摄像头预览区域");
@@ -216,6 +216,12 @@ void MainWindow::on_pb_doorlock_clicked()
         client->publish(topic, payload);
         ui->pb_doorlock->setText("门锁开");
     }
+}
+
+void MainWindow::on_pb_close_clicked()
+{
+    // QCoreApplication::exit(0);
+    close();
 }
 
 void MainWindow::onCameraImageReady(const QImage &img)
@@ -380,32 +386,6 @@ void MainWindow::recvMessage(QByteArray mess)
     qDebug() << jsonDoc;
 }
 
-void MainWindow::on_disable_clicked()
-{
-    // 关闭所有设备
-    leds->off(fsmpLeds::LED1);
-    leds->off(fsmpLeds::LED2);
-    leds->off(fsmpLeds::LED3);
-    fan->stop();
-    beeper->stop();
-    
-    // 关闭摄像头
-    if(camera && camera->isRunning()) {
-        camera->terminate();
-        camera->wait();
-    }
-    
-    // 重置按钮状态
-    ui->pb_led->setText("开灯");
-    ui->pb_led_2->setText("开灯");
-    ui->pb_led_3->setText("开灯");
-    ui->pb_fan->setText("风扇开");
-    ui->pb_beeper->setText("蜂鸣器开");
-    ui->pb_camera->setText("开启摄像头");
-    ui->camera_label->clear();
-    ui->camera_label->setText("摄像头预览区域");
-}
-
 void MainWindow::queryWeather()
 {
     // 天气API参数
@@ -448,7 +428,7 @@ void MainWindow::queryWeather()
         html += QString("<b>温度：</b><span style='color:#e65100;'>%1℃</span> <b>体感：</b>%2℃<br/>")
             .arg(obj.value("temperature").toDouble(), 0, 'f', 1)
             .arg(obj.value("feelst").toDouble(), 0, 'f', 1);
-        html += QString("<b>湿度：</b>%1%% <b>气压：</b>%2 hPa<br/>")
+        html += QString("<b>湿度：</b>%1% <b>气压：</b>%2 hPa<br/>")
             .arg(obj.value("humidity").toInt())
             .arg(obj.value("pressure").toInt());
         html += QString("<b>风向：</b>%1 <b>风速：</b>%2 m/s <b>风力：</b>%3<br/>")

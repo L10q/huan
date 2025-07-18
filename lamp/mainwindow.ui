@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1039</width>
+    <width>977</width>
     <height>600</height>
    </rect>
   </property>
@@ -396,19 +396,6 @@ QLabel#camera_label {
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="disable">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>120</y>
-      <width>89</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>关闭</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pb_led_3">
     <property name="geometry">
      <rect>
@@ -503,8 +490,8 @@ QLabel#camera_label {
    <widget class="QLabel" name="camera_label">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>100</y>
+      <x>510</x>
+      <y>130</y>
       <width>461</width>
       <height>331</height>
      </rect>
@@ -519,8 +506,8 @@ QLabel#camera_label {
    <widget class="QPushButton" name="pb_camera">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>30</y>
+      <x>670</x>
+      <y>60</y>
       <width>101</width>
       <height>40</height>
      </rect>
@@ -542,11 +529,24 @@ QLabel#camera_label {
      <string>门锁开</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pb_close">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>10</y>
+      <width>80</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>关闭</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="label_weather_result">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>429</y>
+      <x>380</x>
+      <y>10</y>
       <width>260</width>
       <height>111</height>
      </rect>
@@ -564,7 +564,7 @@ QLabel#camera_label {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1039</width>
+     <width>977</width>
      <height>28</height>
     </rect>
    </property>

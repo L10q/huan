@@ -42,8 +42,6 @@ private slots:
 
     void recvMessage(QByteArray mess);
 
-    void on_disable_clicked();
-
     // 新增风扇控制槽函数
     void on_pb_fan_speed_up_clicked();
     void on_pb_fan_speed_down_clicked();
@@ -60,6 +58,8 @@ private slots:
     void on_pb_camera_clicked();
 
     void on_pb_doorlock_clicked();
+
+    void on_pb_close_clicked();
 
 private:
     Ui::MainWindow *ui;

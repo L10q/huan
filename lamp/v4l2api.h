@@ -15,6 +15,7 @@
 #include <QThread>
 #include <QImage>
 #include <QObject>
+#include <atomic>
 using namespace  std;
 
 const int WIDTH= 640;
@@ -53,8 +54,7 @@ public:
     void grapImage(char *imageBuffer, int *length);
     bool yuyv_to_rgb888(unsigned char *yuyvdata, unsigned char *rgbdata, int picw=WIDTH, int pich=HEIGHT);
     void setPixDelay(int us) { delayus = us; }
-
-    //定义run函数
+    void stop(); // 新增安全停止方法
     void run();
 private:
     void video_init();
@@ -65,7 +65,7 @@ private:
     int count;//缓冲区个数
     vector<struct VideoFrame> framebuffers;
     int delayus = 10000;
-
+    std::atomic<bool> stopped {false}; // 线程退出标志
 signals:
     void sendImage(QImage);
 };

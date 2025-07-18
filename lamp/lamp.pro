@@ -19,7 +19,6 @@ SOURCES += \
 
 HEADERS += \
     fsmpBeeper.h \
-    fsmpCamera.h \
     fsmpElectric.h \
     fsmpEvents.h \
     fsmpFan.h \

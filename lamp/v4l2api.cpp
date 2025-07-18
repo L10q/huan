@@ -5,11 +5,19 @@
 V4l2Api::V4l2Api(const char *dname, int count):deviceName(dname),count(count)
 {
     this->open();
+    stopped = false;
 }
 
 V4l2Api::~V4l2Api()
 {
+    stop();
     this->close();
+}
+
+void V4l2Api::stop()
+{
+    stopped = true;
+    wait(); // 等待线程安全退出
 }
 
 void V4l2Api::open()
@@ -260,7 +268,7 @@ void V4l2Api::run()
     char buffer[WIDTH*HEIGHT*4];
     char rgbbuffer[WIDTH*HEIGHT*4];
     int len;
-    while(1)
+    while(!stopped)
     {
         grapImage(buffer, &len);
         yuyv_to_rgb888((unsigned char *)buffer, (unsigned char *)rgbbuffer);
@@ -270,4 +278,5 @@ void V4l2Api::run()
         emit sendImage(image);
         usleep(delayus);
     }
+    stopped = false; // 线程退出后重置
 }
