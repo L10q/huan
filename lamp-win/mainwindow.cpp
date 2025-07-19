@@ -469,53 +469,66 @@ void MainWindow::processVoiceCommand(const QString &command)
 {
     QString lowerCommand = command.toLower();
     qDebug() << "处理语音命令:" << lowerCommand;
+    QString topic = ui->pub_topic->text();
+    QByteArray payload;
     
-    // 语音命令映射 - 直接发送JSON消息，不修改按钮状态
+    // 直接根据语音意图发送JSON，不判断按钮状态
     if (lowerCommand.contains("开灯") || lowerCommand.contains("打开灯")) {
-        if (lowerCommand.contains("一") || lowerCommand.contains("1")) {
-            sendVoiceCommand("lamp", 0);
-        } else if (lowerCommand.contains("二") || lowerCommand.contains("2")) {
-            sendVoiceCommand("lamp", 1);
-        } else if (lowerCommand.contains("三") || lowerCommand.contains("3")) {
-            sendVoiceCommand("lamp", 2);
-        } else {
-            // 默认开第一盏灯
-            sendVoiceCommand("lamp", 0);
-        }
+        int id = 0;
+        if (lowerCommand.contains("一") || lowerCommand.contains("1")) id = 0;
+        else if (lowerCommand.contains("二") || lowerCommand.contains("2")) id = 1;
+        else if (lowerCommand.contains("三") || lowerCommand.contains("3")) id = 2;
+        payload = QString("{\"lamp\":true,\"id\":%1}").arg(id).toUtf8();
+        client->publish(topic, payload);
         ui->label_voice_result->setText("语音命令：开灯");
     }
     else if (lowerCommand.contains("关灯") || lowerCommand.contains("关闭灯")) {
-        if (lowerCommand.contains("一") || lowerCommand.contains("1")) {
-            sendVoiceCommand("lamp", 0);
-        } else if (lowerCommand.contains("二") || lowerCommand.contains("2")) {
-            sendVoiceCommand("lamp", 1);
-        } else if (lowerCommand.contains("三") || lowerCommand.contains("3")) {
-            sendVoiceCommand("lamp", 2);
-        } else {
-            // 默认关第一盏灯
-            sendVoiceCommand("lamp", 0);
-        }
+        int id = 0;
+        if (lowerCommand.contains("一") || lowerCommand.contains("1")) id = 0;
+        else if (lowerCommand.contains("二") || lowerCommand.contains("2")) id = 1;
+        else if (lowerCommand.contains("三") || lowerCommand.contains("3")) id = 2;
+        payload = QString("{\"lamp\":false,\"id\":%1}").arg(id).toUtf8();
+        client->publish(topic, payload);
         ui->label_voice_result->setText("语音命令：关灯");
     }
     else if (lowerCommand.contains("风扇") || lowerCommand.contains("开风扇")) {
-        sendVoiceCommand("fan", 0);
-        ui->label_voice_result->setText("语音命令：风扇控制");
+        payload = "{\"fan\":true,\"id\":0}";
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("语音命令：风扇开");
+    }
+    else if (lowerCommand.contains("风扇关") || lowerCommand.contains("关闭风扇")) {
+        payload = "{\"fan\":false,\"id\":0}";
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("语音命令：风扇关");
     }
     else if (lowerCommand.contains("蜂鸣器") || lowerCommand.contains("报警")) {
-        sendVoiceCommand("alarm", 0);
-        ui->label_voice_result->setText("语音命令：蜂鸣器控制");
+        payload = "{\"alarm\":true,\"id\":0}";
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("语音命令：蜂鸣器开");
+    }
+    else if (lowerCommand.contains("蜂鸣器关") || lowerCommand.contains("关闭蜂鸣器")) {
+        payload = "{\"alarm\":false,\"id\":0}";
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("语音命令：蜂鸣器关");
     }
     else if (lowerCommand.contains("门锁") || lowerCommand.contains("锁门")) {
-        sendVoiceCommand("doorLock", 0);
-        ui->label_voice_result->setText("语音命令：门锁控制");
+        payload = "{\"doorLock\":true,\"id\":0}";
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("语音命令：门锁开");
+    }
+    else if (lowerCommand.contains("门锁关") || lowerCommand.contains("关闭门锁")) {
+        payload = "{\"doorLock\":false,\"id\":0}";
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("语音命令：门锁关");
     }
     else if (lowerCommand.contains("全部关闭") || lowerCommand.contains("关闭所有")) {
-        // 发送所有设备的关闭命令
-        sendVoiceCommand("lamp", 0);
-        sendVoiceCommand("lamp", 1);
-        sendVoiceCommand("lamp", 2);
-        sendVoiceCommand("fan", 0);
-        sendVoiceCommand("alarm", 0);
+        // 所有设备全部关闭
+        client->publish(topic, "{\"lamp\":false,\"id\":0}");
+        client->publish(topic, "{\"lamp\":false,\"id\":1}");
+        client->publish(topic, "{\"lamp\":false,\"id\":2}");
+        client->publish(topic, "{\"fan\":false,\"id\":0}");
+        client->publish(topic, "{\"alarm\":false,\"id\":0}");
+        client->publish(topic, "{\"doorLock\":false,\"id\":0}");
         ui->label_voice_result->setText("语音命令：全部关闭");
     }
     else if (lowerCommand.contains("天气") || lowerCommand.contains("查询天气")) {
@@ -524,48 +537,6 @@ void MainWindow::processVoiceCommand(const QString &command)
     }
     else {
         ui->label_voice_result->setText("未识别的语音命令：" + command);
-    }
-}
-
-void MainWindow::sendVoiceCommand(const QString &command, int deviceId)
-{
-    QString topic = ui->pub_topic->text();
-    QByteArray payload;
-    
-    // 根据当前按钮状态决定发送开启还是关闭命令
-    bool shouldTurnOn = false;
-    
-    if (command == "lamp") {
-        if (deviceId == 0) {
-            shouldTurnOn = (ui->pb_led->text() == "开灯");
-        } else if (deviceId == 1) {
-            shouldTurnOn = (ui->pb_led_2->text() == "开灯");
-        } else if (deviceId == 2) {
-            shouldTurnOn = (ui->pb_led_3->text() == "开灯");
-        }
-    } else if (command == "fan") {
-        shouldTurnOn = (ui->pb_fan->text() == "风扇开");
-    } else if (command == "alarm") {
-        shouldTurnOn = (ui->pb_beeper->text() == "蜂鸣器开");
-    } else if (command == "doorLock") {
-        shouldTurnOn = (ui->pb_doorlock->text() == "门锁开");
-    }
-    
-    // 构建JSON消息
-    if (command == "lamp") {
-        payload = QString("{\"lamp\":%1,\"id\":%2}").arg(shouldTurnOn ? "true" : "false").arg(deviceId).toUtf8();
-    } else if (command == "fan") {
-        payload = QString("{\"fan\":%1,\"id\":%2}").arg(shouldTurnOn ? "true" : "false").arg(deviceId).toUtf8();
-    } else if (command == "alarm") {
-        payload = QString("{\"alarm\":%1,\"id\":%2}").arg(shouldTurnOn ? "true" : "false").arg(deviceId).toUtf8();
-    } else if (command == "doorLock") {
-        payload = QString("{\"doorLock\":%1,\"id\":%2}").arg(shouldTurnOn ? "true" : "false").arg(deviceId).toUtf8();
-    }
-    
-    // 发送MQTT消息
-    if (!payload.isEmpty()) {
-        client->publish(topic, payload);
-        qDebug() << "语音命令发送:" << payload;
     }
 }
 
