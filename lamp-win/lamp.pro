@@ -22,6 +22,14 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
+# 添加Vosk语音识别库支持
+# 添加头文件路径
+INCLUDEPATH += $$PWD/include
+
+# 添加库文件路径（根据个人系统调整）
+LIBS += -L$$PWD/lib -lvosk
+LIBS += -L"D:\Downloads\APP\OpenBLAS-0.3.29_x64\lib" -lopenblas
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
