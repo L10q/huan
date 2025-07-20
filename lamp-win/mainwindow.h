@@ -7,6 +7,8 @@
 #include <QAudioInput>
 #include <QAudioDeviceInfo>
 #include "vosk_api.h"
+#include "deepseek_api.h"
+#include "config.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +21,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void handleAIJson(const QString& aiJson, const QString& text);
+    void processVoiceCommandAI(const QString& command); // AI+兜底处理
+    QString localFallback(const QString& text);   // 本地兜底规则
+    QJsonArray chatHistory; // 多轮对话上下文
 
 private slots:
     void on_pb_led_clicked();

@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QDebug>
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     client = new QMqttClient;
     queryWeather();
-    
+
     // 初始化语音识别
     initVoiceRecognition();
 }
@@ -44,7 +44,7 @@ MainWindow::~MainWindow()
         delete audioInput;
         audioInput = nullptr;
     }
-    
+
     delete ui;
 }
 
@@ -143,7 +143,7 @@ void MainWindow::on_pb_beeper_clicked()
 }
 
 void MainWindow::onMqttMessageReceived(const QByteArray &message, const QMqttTopicName &topic)
-{    
+{
     // 判断是否为当前订阅主题
     QString subTopic = ui->sub_topic->text();
     if(topic.name() == subTopic) {
@@ -265,25 +265,25 @@ void MainWindow::queryWeather()
         }
         QJsonObject obj = doc.object();
         QString html;
-        
+
         // 深色主题天气卡片样式 - 优化布局
         html += "<div style='background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%); ";
         html += "border-radius: 16px; padding: 20px; color: white; ";
         html += "font-family: \"Microsoft YaHei\", sans-serif; box-shadow: 0 8px 25px rgba(0,0,0,0.3); ";
         html += "height: 360px; display: flex; flex-direction: column; ";
         html += "border: 1px solid #34495e;'>";
-        
+
         // 位置信息 - 顶部
         html += QString("<div style='font-size: 14px; margin-bottom: 15px; opacity: 0.9; font-weight: 500; color: #bdc3c7; text-align: center;'>%1</div>")
             .arg(obj.value("place").toString());
-        
+
         // 主要内容区域
         html += "<div style='flex: 1; display: flex; flex-direction: column; justify-content: center;'>";
-        
+
         // 主要温度显示 - 大字体居中
         html += QString("<div style='font-size: 48px; font-weight: bold; text-align: center; margin: 10px 0; line-height: 1; color:rgb(9, 53, 65);'>%1°</div>")
             .arg(obj.value("temperature").toDouble(), 0, 'f', 0);
-        
+
         // 高低温度 - 水平排列
         html += QString("<div style='font-size: 16px; text-align: center; margin-bottom: 15px;'>");
         html += QString("<span style='margin-right: 15px; font-weight: 600; color: #e74c3c;'>%1°</span>")
@@ -291,22 +291,22 @@ void MainWindow::queryWeather()
         html += QString("<span style='opacity: 0.8; font-weight: 400; color: #3498db;'>%1°</span>")
             .arg(obj.value("temperature").toDouble() - 6, 0, 'f', 0); // 模拟低温
         html += "</div>";
-        
+
         // 天气状况
         html += QString("<div style='font-size: 18px; text-align: center; margin-bottom: 15px; font-weight: 500; color: #f39c12;'>%1</div>")
             .arg(obj.value("weather1").toString());
-        
+
         html += "</div>";
-        
+
         // 底部信息 - 紧凑布局
         html += "<div style='margin-top: auto;'>";
-        
+
         // 体感温度和风速 - 一行显示
         html += QString("<div style='font-size: 13px; margin-bottom: 8px; opacity: 0.9; font-weight: 400; color:rgb(15, 41, 43);'>体感温度 %1° | %2 %3级</div>")
             .arg(obj.value("feelst").toDouble(), 0, 'f', 0)
             .arg(obj.value("windDirection").toString())
             .arg(obj.value("windScale").toString());
-        
+
         // 空气质量和其他信息 - 紧凑布局
         if (obj.contains("aqi") || obj.contains("airQuality")) {
             // 如果API提供了空气质量数据
@@ -321,12 +321,12 @@ void MainWindow::queryWeather()
                 else if (aqi <= 300) quality = "重度污染";
                 else quality = "严重污染";
             }
-            
+
             QString color = "#00ff88"; // 默认绿色
             if (aqi > 100) color = "#ffaa00"; // 黄色
             if (aqi > 150) color = "#ff6600"; // 橙色
             if (aqi > 200) color = "#ff0000"; // 红色
-            
+
             html += QString("<div style='font-size: 13px; margin-bottom: 8px; opacity: 0.9; color: #bdc3c7;'>空气质量: <span style='color: %1; font-weight: bold;'>%2</span> <span style='opacity: 0.8; color: #95a5a6;'>(%3)</span></div>")
                 .arg(color).arg(quality).arg(aqi);
         } else {
@@ -335,7 +335,7 @@ void MainWindow::queryWeather()
                 .arg(obj.value("humidity").toInt())
                 .arg(obj.value("pressure").toInt());
         }
-        
+
         // 降水量信息
         if (obj.contains("precipitation")) {
             double precipitation = obj.value("precipitation").toDouble();
@@ -344,14 +344,14 @@ void MainWindow::queryWeather()
                     .arg(precipitation, 0, 'f', 1);
             }
         }
-        
+
         // 更新时间
         if (obj.contains("uptime")) {
             QString uptime = obj.value("uptime").toString();
             html += QString("<div style='font-size: 11px; margin-top: 10px; opacity: 0.7; color: #95a5a6; text-align: center;'>更新时间: %1</div>")
                 .arg(uptime);
         }
-        
+
         html += "</div>";
         html += "</div>";
         ui->label_weather_result->setText(html);
@@ -400,7 +400,7 @@ void MainWindow::initVoiceRecognition()
     // 5. 创建音频输入
     audioInput = new QAudioInput(audioFormat);
     connect(audioInput, &QAudioInput::stateChanged, this, &MainWindow::handleAudioStateChanged);
-    
+
     isVoiceEnabled = true;
     ui->pb_voice->setText("按住说话");
     qDebug() << "语音识别初始化完成";
@@ -412,7 +412,7 @@ void MainWindow::on_pb_voice_pressed()
     if (!isVoiceEnabled || !audioInput) {
         return;
     }
-    
+
     audioData.clear();
     audioDevice = audioInput->start();
     if (audioDevice) {
@@ -427,25 +427,26 @@ void MainWindow::on_pb_voice_released()
     if (!isVoiceEnabled || !audioInput) {
         return;
     }
-    
+
     audioInput->stop();
     if (audioDevice) {
         disconnect(audioDevice, &QIODevice::readyRead, this, &MainWindow::readAudioData);
     }
-    
+
     qDebug() << "录音数据大小:" << audioData.size();
 
     if (!audioData.isEmpty() && voskRecognizer) {
         // 发送音频数据给Vosk进行识别
         vosk_recognizer_accept_waveform(voskRecognizer, audioData.constData(), audioData.size());
-        
+
         // 获取识别结果
         const char* result = vosk_recognizer_final_result(voskRecognizer);
         QString recognizedText = QString::fromUtf8(result);
         qDebug() << "语音识别结果:" << recognizedText;
-        
+
         // 处理语音命令
-        processVoiceCommand(recognizedText);
+        // processVoiceCommand(recognizedText);
+        processVoiceCommandAI(recognizedText);
     }
 
     ui->pb_voice->setText("按住说话");
@@ -465,13 +466,112 @@ void MainWindow::readAudioData()
     }
 }
 
+void MainWindow::processVoiceCommandAI(const QString &command) {
+    QString text = command;
+    QString systemPrompt = u8R"(
+你是一个智能家居语音助手，用户会用自然语言下达家电控制指令。你只需要根据用户的语音内容，判断用户想要控制的设备和动作，并以JSON格式输出。
+如果无法理解用户意图，输出 {\"error\":\"无法识别指令\"}。如用户说打开风扇你就要输出{"fan": true},关闭风扇就要输出{"fan": false}，以此类推。
+设备控制JSON格式如下：
+{
+  "fan": true/false,      // 风扇开关
+  "lamp": 0/1/2/3/null,   // 灯光编号（1/2/3），null表示不控制
+  "lamp_on": true/false,  // 灯光开关
+  "beeper": true/false,   // 蜂鸣器开关
+  "doorlock": true/false, // 门锁开关
+  "error": "..."          // 错误信息（可选）
+}
+只输出JSON，不要输出其它内容。
+)";
+
+    if (chatHistory.isEmpty()) {
+        chatHistory.append(QJsonObject{{"role", "system"}, {"content", systemPrompt}});
+    }
+    chatHistory.append(QJsonObject{{"role", "user"}, {"content", text}});
+
+    QString aiJson = callDeepSeek(chatHistory, DEEPSEEK_API_KEY);
+    handleAIJson(aiJson, text);
+}
+
+void MainWindow::handleAIJson(const QString& aiJson, const QString& text) {
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(aiJson.toUtf8(), &err);
+    if (err.error != QJsonParseError::NoError || !doc.isObject()) {
+        // AI返回内容不是合法JSON，走本地兜底
+        QString localJson = localFallback(text);
+        if (!localJson.isEmpty()) {
+            handleAIJson(localJson, text);
+        } else {
+            ui->label_voice_result->setText("AI和本地均未能理解指令:" + text);
+        }
+        return;
+    }
+    QJsonObject obj = doc.object();
+    chatHistory.append(QJsonObject{{"role", "assistant"}, {"content", aiJson}});
+    QString topic = ui->pub_topic->text();
+    QByteArray payload;
+    // 控制风扇
+    if (obj.contains("fan")) {
+        bool fanOn = obj["fan"].toBool();
+        payload = QString("{\"fan\":%1,\"id\":0}").arg(fanOn ? "true" : "false").toUtf8();
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("AI控制风扇: " + QString(payload));
+    }
+    // 控制灯光
+    if (obj.contains("lamp") && obj.contains("lamp_on")) {
+        int lampId = obj["lamp"].toInt();
+        bool lampOn = obj["lamp_on"].toBool();
+        payload = QString("{\"lamp\":%1,\"id\":%2}").arg(lampOn ? "true" : "false").arg(lampId-1).toUtf8();
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("AI控制灯光: " + QString(payload));
+    }
+    // 控制蜂鸣器
+    if (obj.contains("beeper")) {
+        bool beeperOn = obj["beeper"].toBool();
+        payload = QString("{\"alarm\":%1,\"id\":0}").arg(beeperOn ? "true" : "false").toUtf8();
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("AI控制蜂鸣器: " + QString(payload));
+    }
+    // 控制门锁
+    if (obj.contains("doorlock")) {
+        bool lockOn = obj["doorlock"].toBool();
+        payload = QString("{\"doorLock\":%1,\"id\":0}").arg(lockOn ? "true" : "false").toUtf8();
+        client->publish(topic, payload);
+        ui->label_voice_result->setText("AI控制门锁: " + QString(payload));
+    }
+    // 错误处理
+    if (obj.contains("error")) {
+        QString localJson = localFallback(text);
+        if (!localJson.isEmpty()) {
+            handleAIJson(localJson, text);
+        } else {
+            ui->label_voice_result->setText("AI和本地均未能理解指令: " + text);
+        }
+    }
+}
+
+QString MainWindow::localFallback(const QString& text) {
+    if (text.contains("开风扇")) return "{\"fan\":true}";
+    if (text.contains("关风扇")) return "{\"fan\":false}";
+    if (text.contains("开灯1")) return "{\"lamp\":1,\"lamp_on\":true}";
+    if (text.contains("关灯1")) return "{\"lamp\":1,\"lamp_on\":false}";
+    if (text.contains("开蜂鸣器")) return "{\"beeper\":true}";
+    if (text.contains("关蜂鸣器")) return "{\"beeper\":false}";
+    if (text.contains("开门")) return "{\"doorlock\":true}";
+    if (text.contains("关门")) return "{\"doorlock\":false}";
+    return "";
+}
+
+// 修改processVoiceCommand为：
 void MainWindow::processVoiceCommand(const QString &command)
 {
+    // 只用本地规则
+
+    // 原有本地规则处理
     QString lowerCommand = command.toLower();
     qDebug() << "处理语音命令:" << lowerCommand;
     QString topic = ui->pub_topic->text();
     QByteArray payload;
-    
+
     // 直接根据语音意图发送JSON，不判断按钮状态
     if (lowerCommand.contains("开灯") || lowerCommand.contains("打开灯")) {
         int id = 0;
